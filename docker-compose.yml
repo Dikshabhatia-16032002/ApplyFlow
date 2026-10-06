@@ -1,0 +1,20 @@
+# Phase 1 runs Postgres only. API, worker, beat, Redis, and the frontend are added in Phase 9.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: outreach
+      POSTGRES_PASSWORD: outreach
+      POSTGRES_DB: outreach
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U outreach -d outreach"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - outreach_pg:/var/lib/postgresql/data
+
+volumes:
+  outreach_pg:
